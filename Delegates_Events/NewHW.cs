@@ -11,13 +11,18 @@ using static System.Console;
 
 namespace Delegates_Events
 {
-      
+    public delegate void StartDelegate(string massage);
     public abstract class Car
     {
         public string Brand { get; set; }
         public string Model { get; set; }
         public int Speed { get; set; }
         public int Distance { get; set; }
+
+        public void Start()
+        {
+            WriteLine("\t\t\t\t\t***Start Game***");
+        }
     }
 
     class Sport : Car
@@ -35,13 +40,13 @@ namespace Delegates_Events
         }
         public void Finish()
         {
-            WriteLine($"{Brand} {Model}\tSpeed:{Speed}\tDistance:{Distance} Finish");
+            WriteLine($"{Brand} {Model}\tSpeed:{Speed}\tDistance:{Distance}\t\t\t***Finish***");
         }
     }
 
     class Passenger : Car
     {
-       
+      
         public Passenger()
         {
             Brand = "VW";
@@ -55,7 +60,7 @@ namespace Delegates_Events
         }
         public void Finish()
         {
-            WriteLine($"{Brand} {Model}\tSpeed:{Speed}\tDistance:{Distance} Finish");
+            WriteLine($"{Brand} {Model}\tSpeed:{Speed}\tDistance:{Distance}\t\t\t***Finish***");
         }
     }
 
@@ -75,9 +80,8 @@ namespace Delegates_Events
         }
         public void Finish()
         {
-            WriteLine($"{Brand} {Model}\tSpeed:{Speed}\tDistance:{Distance} Finish");
+            WriteLine($"{Brand} {Model}\tSpeed:{Speed}\tDistance:{Distance}\t\t\t***Finish***");
         }
-
     }
 
     class Bus : Car
@@ -96,11 +100,21 @@ namespace Delegates_Events
         }
         public void Finish()
         {
-            WriteLine($"{Brand} {Model}\tSpeed:{Speed}\tDistance:{Distance} Finish");
+            WriteLine($"{Brand} {Model}\tSpeed:{Speed}\tDistance:{Distance}\t\t\t***Finish***");
         }
-
     }
-    
+    class StartEvent : Car
+    {
+        public event StartDelegate startEvent;
+        public void Start(string massage)
+        {
+            if (startEvent != null)
+            {
+                startEvent(massage);
+            }
+                     
+        }
+    }
     class Game : Car
     {
         public void Racing(string racing)
@@ -124,6 +138,7 @@ namespace Delegates_Events
                 passenger.Speed = rand.Next(10, 100);
                 truck.Speed = rand.Next(10, 100);
                 bus.Speed = rand.Next(10, 100);
+               
                 sport.Distance += sport.Speed;
                 passenger.Distance += passenger.Speed;
                 truck.Distance += truck.Speed;
@@ -134,15 +149,15 @@ namespace Delegates_Events
             {
                 sport.Finish();
             }
-            else if (passenger.Distance > sport.Distance)
+            else if (passenger.Distance > 1000)
             {
                 passenger.Finish();
             }
-            else if (truck.Distance > passenger.Distance)
+            else if (truck.Distance > 1000)
             {
                 truck.Finish();
             }
-            else if (bus.Distance > truck.Distance)
+            else if (bus.Distance > 1000)
             {
                 bus.Finish();
             }
@@ -152,6 +167,8 @@ namespace Delegates_Events
     {
         static void Main(string[] args)
         {
+            StartEvent start = new StartEvent();
+            start.Start();
             Game game = new Game();
             game.Racing("Finish");
         }

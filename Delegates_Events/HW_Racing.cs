@@ -119,7 +119,7 @@ namespace Delegates_Events
             int carDistance = 0;
             Random rand = new Random();
 
-            while (carDistance <= 1000)
+            while (carDistance < 1000)
             {
                 int carSpeed = rand.Next(10, 100);
                 carDistance += carSpeed;
@@ -160,7 +160,7 @@ namespace Delegates_Events
             Game racing = new Game();
             foreach (Car item in cars)
             {
-               
+         
                 racing.racingEvent += item.Game;
                 
             }
